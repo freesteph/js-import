@@ -32,6 +32,11 @@
 (require 'subr-x)
 (require 'projectile)
 
+(defcustom js-import-quote-style "\""
+  "Type of quote to use for import paths."
+  :options (list "\"" "'")
+  :type 'string)
+
 (defun js-import-get-package-json ()
   "Return the path to package.json from projectile-project-root"
   (concat (projectile-project-root) "package.json"))
@@ -68,9 +73,11 @@
     (insert (concat
              "import "
              selected-file-name
-             " from \""
+             " from "
+             js-import-quote-style
              (if (js-import-is-js-file selected-file) (concat "./" selected-file-relative-path) selected-file-name)
-             "\";"))))
+             js-import-quote-style
+             ";"))))
 
 ;;;###autoload
 (defun js-import ()
